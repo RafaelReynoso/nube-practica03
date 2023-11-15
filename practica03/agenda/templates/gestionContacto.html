@@ -1,0 +1,84 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de Contactos {% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Agregar Contacto</h2>
+                </div>
+                <div class="card-body">
+                    <form action="/registrarContacto/" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="txtCodigo">Código:</label>
+                            <input type="text" id="txtCodigo" name="txtCodigo" class="form-control" maxlength="6" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtNombre">Nombre:</label>
+                            <input type="text" id="txtNombre" name="txtNombre" class="form-control" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtApellido">Apellidos:</label>
+                            <input type="text" id="txtApellidos" name="txtApellido" class="form-control" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtEmail">Email:</label>
+                            <input type="text" id="txtEmail" name="txtEmail" class="form-control" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtFecha_nacimiento">Fecha de Nacimiento:</label>
+                            <input type="text" id="txtFecha_nacimiento" name="txtFecha_nacimiento" class="form-control" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="foto">Foto:</label>
+                            <input type="file" name="foto" id="foto" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="mb-3">Lista de Contactos</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Email</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Foto</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in contacto %}
+                        <tr>
+                            <td>{{ c.codigo }}</td>
+                            <td>{{ c.nombre }}</td>
+                            <td>{{ c.apellidos }}</td>
+                            <td>{{ c.email }}</td>
+                            <td>{{ c.fecha_nacimiento }}</td>
+                            <td><img src="{{ c.foto }}" width="50"></td>
+                            <td>{{ c.seccion }}</td>
+                            <td>
+                                <a href="edicionContacto/{{ c.contacto }}" class="btn btn-info btn-sm">Editar</a>
+                                <a href="eliminacionContacto/{{ c.contacto }}" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
